@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>测试</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<script>
+function checkNumContinuous(num)
+{
+	var arr	=	num.split('');
+	var t	=	false;
+	var continuous=0,continuousDESC=0;
+	for(var i=0;i<arr.length;i++)
+	{
+		/*倒序连续*/
+		if(arr[i]==(arr[i-1]+1))
+	   {
+		   continuousDESC++;
+	   }
+		else
+			{
+				continuousDESC=0;
+			}
+		/*顺序连续*/
+		if(arr[i]==(arr[i+1]+1))
+	   {
+		   continuous++;
+	   }
+		else
+			{
+				continuous=0;
+			}
+		if(continuous>=3 || continuousDESC>=3)
+	   {
+		   t 	=	true;
+		   break;
+	   }
+	}
+	return t;
+}
+function ajaxSubmit(dome)
+{
+	var t		=	true;
+	var arr		=	new Array();
+	var user_name		=	dome.elements['Username'].value;
+	var password		=	dome.elements['Password'].value;
+	var password2		=	dome.elements['Password2'].value;
+	var userRules = /^[a-zA-Z0-9_]{1,}$/; 
+	if(!user_name.match(userRules)){//检查用户名命名规则是否合规范
+		t=false;
+		arr.push("用户名命名不规范");
+	}
+	//检测用户名名称必须字母或下划线开头
+	var userstart = /^[0-9]{1,}$/;
+	if(user_name.substr(0,1).match(userstart))
+   {
+	   t=false;
+		arr.push("用户名不可以数字开头");
+   }
+	if(password.length<6){
+		t=false;
+		arr.push("密码长度应大于6位");
+	}
+	/*以下是不可存在连续3位是数字的情况*/
+	var psRules = /[0-9]{3,}$/;
+	if(password.match(psRules)){
+		t=false;
+		arr.push("密码不可存在连续3位数字");
+	}
+	/*以下是不可连号判断*/
+//	if(checkNumContinuous(password.match(/[0-9]{3,}/)[0]))
+//   {
+//	   t=false;
+//		arr.push("密码不可出现连号数字");
+//   }
+	if(password !==password2){
+		t=false;
+		arr.push("两次密码输入不一致");
+	}
+	if(!t){//如果t不为真
+		
+		alert(arr.join("\n"));
+	}
+	return t;
+}
+</script>
+</head>
+<body>
+	<form action="/api/register" method="post" onSubmit="return ajaxSubmit(this)">
+	<table>
+		<tr>
+			<th>用户名：</th>
+			<td><input type="text" name="Username" value=""/></td>
+		</tr>
+		<tr>
+			<th>密码：</th>
+			<td><input type="password" name="Password" value=""/></td>
+		</tr>
+		<tr>
+			<th>重复密码：</th>
+			<td><input type="password" name="Password2" value=""/></td>
+		</tr>
+		<tr>
+			<th></th>
+			<td><input type="submit" name="Submit " value="Submit "/></td>
+		</tr>
+	</table>   
+	</form>
+</body>
+</html>
