@@ -16,6 +16,7 @@ class controller_ApiController extends controller_BaseController
   PRIMARY KEY  (`id`,`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;*/
 		/**INSERT INTO `ceshi_user_list` (`user_name`, `password`) VALUES ('".$_POST['Username']."', '".$_POST['Password']."')*/
+		
 	}
 	
 }
